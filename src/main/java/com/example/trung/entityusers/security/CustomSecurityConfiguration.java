@@ -22,7 +22,9 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableMethodSecurity //bật để cài đặt phân quyền trên method
 public class CustomSecurityConfiguration {
+//    private final String[] PUBLIC_ENDPOINTS = {"/auth/**"};
     private final String[] PUBLIC_ENDPOINTS = {"/auth/**"};
+
 
     @Value("${jwt.encodeKey}")
     private String encodedKey;

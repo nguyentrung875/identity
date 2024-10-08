@@ -23,19 +23,19 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        UserResponse userResponse = new UserResponse();
+        UserResponse.UserResponseBuilder userResponse = UserResponse.builder();
 
-        userResponse.setId( user.getId() );
-        userResponse.setUsername( user.getUsername() );
-        userResponse.setFirstName( user.getFirstName() );
-        userResponse.setLastName( user.getLastName() );
-        userResponse.setDob( user.getDob() );
+        userResponse.id( user.getId() );
+        userResponse.username( user.getUsername() );
+        userResponse.firstName( user.getFirstName() );
+        userResponse.lastName( user.getLastName() );
+        userResponse.dob( user.getDob() );
         Set<Role> set = user.getRoles();
         if ( set != null ) {
-            userResponse.setRoles( new LinkedHashSet<Role>( set ) );
+            userResponse.roles( new LinkedHashSet<Role>( set ) );
         }
 
-        return userResponse;
+        return userResponse.build();
     }
 
     @Override

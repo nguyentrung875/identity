@@ -1,6 +1,7 @@
 package com.example.trung.entityusers.dto.request;
 
 import com.example.trung.entityusers.validators.DobContraints;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,8 @@ import java.util.List;
 @Builder
 public class UserUpdateRequest {
     private String username;
+
+    @Size(min = 8, message = "PASSWORD_INVALID")
     private String password;
     private String firstName;
     private String lastName;

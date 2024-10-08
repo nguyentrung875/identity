@@ -12,6 +12,7 @@ import com.example.trung.entityusers.repository.UserRepo;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -32,6 +34,7 @@ public class UserSevice {
     RoleRepo roleRepo;
 
     public UserResponse createUser(UserRequest userRequest){
+        log.info("User Service: createUser");
         UserResponse userResponse = new UserResponse();
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -52,8 +55,9 @@ public class UserSevice {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')") //chặn trước khi vào method
     @PostAuthorize("returnObject.username == authentication.name") //chặn sau khi method thực hiện xong (ít sử dụng)
-    public  UserResponse updateUser(UserUpdateRequest request){
-        UserResponse userResponse = new UserResponse();
+    //Sau khi nhận đc UserResponse thì kiểm tra xem user trả về có đúng với user đang đăng nhập hay ko
+    //Nếu đúng thì mới trả về kết quả
+    public UserResponse updateUser(UserUpdateRequest request){
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         User user = userRepo.findByUsername(request.getUsername())
@@ -84,9 +88,8 @@ public class UserSevice {
 
     //Sau khi nhận đc UserResponse thì kiểm tra xem user trả về có đúng với user đang đăng nhập hay ko
     //Nếu đúng thì mới trả về kết quả
-    @PostAuthorize("returnObject.username == authentication.name")
+//    @PostAuthorize("returnObject.username == authentication.name")
     public UserResponse getUserByUserName(String usernameRequest) {
-        UserResponse userResponse = new UserResponse();
         User user = userRepo.findByUsername(usernameRequest)
                 .orElseThrow(() -> new CustomException(ErrorStatus.USER_NOT_FOUND));
 

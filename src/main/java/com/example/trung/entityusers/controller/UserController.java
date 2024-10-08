@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,16 +18,18 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
     UserSevice userSevice;
 
     @PostMapping("/create")
     public ResponseEntity<?> createUser(@RequestBody @Valid UserRequest userRequest){
+        log.info("Controller: create User");
         APIResponse apiResponse = new APIResponse();
 
         apiResponse.setData(userSevice.createUser(userRequest));
 
-        return new ResponseEntity<>(apiResponse,HttpStatus.CREATED);
+        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 
     @PostMapping("/update")
@@ -36,7 +39,7 @@ public class UserController {
 
         apiResponse.setData(userSevice.updateUser(request));
 
-        return new ResponseEntity<>(apiResponse,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 
     @GetMapping("/get")

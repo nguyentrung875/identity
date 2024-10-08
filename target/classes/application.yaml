@@ -1,0 +1,28 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /identity
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/entityusers
+    username: root
+    password: 875879
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    show-sql: false
+
+jwt:
+  #Key chưa mã hóa
+  privatekey: 0jm83IqYiJTtgdL1IUGI/E0lSiDw58NlYxGiZv9Nd42gf1wVGaMd1xbhNTJmqz4G
+#  Key đã mã hóa Base64
+  encodeKey: VnY2eUJGekN2N1lPNzlxcXc1SmZZVW9rdkpmbnl5c2VEVU1YRVZSRWg2UmdWWHQ1RTcvVm0xWUpjMEFXaVA3cw==
+  valid-duration: 3600 #in seconds
+  refeshable-duration: 360000 #in seconds
+
+
